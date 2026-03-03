@@ -444,7 +444,7 @@ const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.targe
 document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
 
 // ─── Toast (FOMO notifications with sample data) ───
-const ppl=[{n:"A filmmaker.",l:"Berlin"},{n:"A filmmaker.",l:"Lagos"},{n:"A filmmaker.",l:"Dublin"},{n:"A filmmaker.",l:"Mexico City"},{n:"A filmmaker.",l:"Mumbai"},{n:"A filmmaker.",l:"Austin, TX"},{n:"A filmmaker.",l:"Warsaw"},{n:"Tom\u00e1s H.",l:"S\u00e3o Paulo"},{n:"A filmmaker.",l:"Nairobi"},{n:"A filmmaker.",l:"Accra"}];
+const ppl=[{n:"A Filmmaker",l:"Berlin"},{n:"A Filmmaker",l:"Lagos"},{n:"A Filmmaker",l:"Dublin"},{n:"A Filmmaker",l:"Mexico City"},{n:"A Filmmaker",l:"Mumbai"},{n:"A Filmmaker",l:"Austin, TX"},{n:"A Filmmaker",l:"Warsaw"},{n:"Tom\u00e1s H.",l:"S\u00e3o Paulo"},{n:"A Filmmaker",l:"Nairobi"},{n:"A Filmmaker",l:"Accra"}];
 let ti=0;
 function showToast(){const p=ppl[ti%ppl.length];document.getElementById("toastName").textContent=p.n;document.getElementById("toastLoc").textContent=p.l;const t=document.getElementById("toast");t.classList.add("show");setTimeout(()=>t.classList.remove("show"),4000);ti++}
 setTimeout(showToast,15000);setInterval(showToast,18000);
