@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLINK — The Film Platform Built for Creators</title>
+<meta name="description" content="FLINK is the first film platform where audiences buy, sell, and truly own independent cinema. Filmmakers keep up to 90% revenue.">
+<link rel="icon" type="image/svg+xml" href="Brand/Favicon/SVG/Favicon_white.svg">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0D0D0D;--dark:#111;--darker:#0A0A0A;--orange:#E67E00;--orange-glow:#E67E0040;--white:#FFF;--gray:#888;--light:#CCC;--dim:#333}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--black);color:var(--white)}
+body{font-family:'DM Sans',sans-serif;font-weight:300;background:var(--black);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 clamp(20px,4vw,60px);height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,13,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--white)}
+.nav-logo svg{height:24px;width:auto}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{color:var(--gray);text-decoration:none;font-size:13px;letter-spacing:.5px;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.btn-nav{background:var(--orange);color:var(--black)!important;padding:8px 20px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;letter-spacing:.3px;transition:all .25s;border:none;cursor:pointer}
+.btn-nav:hover{background:#F59E0B;box-shadow:0 0 20px var(--orange-glow);transform:translateY(-1px)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 20px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(230,126,0,.04) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 20% 80%,rgba(230,126,0,.02) 0%,transparent 60%);pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");opacity:.4;pointer-events:none}
+.hero-content{position:relative;z-index:2;max-width:720px}
+.hero h1{margin-bottom:20px;line-height:1;text-align:center}
+.hero-logo{width:clamp(280px,50vw,520px);height:auto;display:block;margin:0 auto}
+
+/* PROJECTOR EFFECT */
+.projector-title{position:relative;display:inline-block;opacity:0;cursor:default}
+.projector-title.running{opacity:1}
+.projector-title .proj-grain{position:absolute;inset:-10%;pointer-events:none;mix-blend-mode:overlay;opacity:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.15'/%3E%3C/svg%3E");transition:opacity 1s ease-out}
+.projector-title.running .proj-grain{opacity:.6}
+.projector-title.stable .proj-grain{opacity:0}
+.proj-bloom{position:absolute;inset:-40%;background:radial-gradient(ellipse at center,rgba(230,126,0,.12) 0%,transparent 60%);pointer-events:none;opacity:0;transition:opacity .5s}
+.projector-title.running .proj-bloom{opacity:1}
+.projector-title.stable .proj-bloom{opacity:.5}
+.hero-sub{font-size:clamp(16px,2.2vw,20px);color:var(--light);line-height:1.6;max-width:540px;margin:0 auto 36px;font-weight:300}
+
+/* FOMO COUNTER */
+.counter-wrap{display:inline-flex;align-items:center;gap:10px;background:rgba(230,126,0,.08);border:1px solid rgba(230,126,0,.2);border-radius:100px;padding:10px 24px;margin-bottom:32px;animation:pulse-border 3s ease-in-out infinite}
+@keyframes pulse-border{0%,100%{border-color:rgba(230,126,0,.2)}50%{border-color:rgba(230,126,0,.5)}}
+.counter-dot{width:8px;height:8px;background:var(--orange);border-radius:50%;animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.counter-text{font-family:'Space Grotesk',sans-serif;font-size:14px;color:var(--orange);font-weight:500;letter-spacing:.3px}
+.counter-num{font-weight:700;font-size:16px}
+
+/* BUTTONS */
+.btn-hero{display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:var(--black);padding:16px 40px;border-radius:8px;font-size:16px;font-weight:600;font-family:'Space Grotesk',sans-serif;text-decoration:none;letter-spacing:.3px;transition:all .3s;border:none;cursor:pointer}
+.btn-hero:hover{background:#F59E0B;box-shadow:0 0 40px var(--orange-glow),0 4px 20px rgba(0,0,0,.4);transform:translateY(-2px)}
+.btn-hero svg{transition:transform .2s}
+.btn-hero:hover svg{transform:translateX(3px)}
+.hero-fine{margin-top:14px;font-size:13px;color:var(--gray);letter-spacing:.3px}
+
+/* VIDEO CAROUSEL */
+.video-section{padding:60px 0 80px;overflow:hidden;position:relative}
+.video-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent)}
+.video-label{padding:0 clamp(20px,4vw,60px);margin-bottom:32px}
+.video-label span{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--gray);text-transform:uppercase;letter-spacing:2px}
+.video-carousel{display:flex;gap:24px;padding:0 clamp(20px,4vw,60px);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none}
+.video-carousel::-webkit-scrollbar{display:none}
+.video-card{flex:0 0 auto;width:min(540px,85vw);scroll-snap-align:start;border-radius:12px;overflow:hidden;background:var(--dark);border:1px solid rgba(255,255,255,.06);transition:all .35s cubic-bezier(.25,.46,.45,.94)}
+.video-card:hover{border-color:rgba(230,126,0,.25);box-shadow:0 8px 40px rgba(230,126,0,.08);transform:translateY(-4px)}
+.video-thumb{width:100%;aspect-ratio:16/9;background:var(--darker);position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden}
+.video-thumb::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(230,126,0,.06) 0%,transparent 70%);pointer-events:none}
+.vt-explainer{background:linear-gradient(135deg,#0D0D0D 0%,#1a1000 30%,#2a1500 50%,#1a1000 70%,#0D0D0D 100%)}
+.vt-demo{background:linear-gradient(135deg,#0D0D0D 0%,#001018 30%,#001828 50%,#001018 70%,#0D0D0D 100%)}
+.play-btn{width:72px;height:72px;background:rgba(230,126,0,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;transition:all .3s}
+.video-thumb:hover .play-btn{transform:scale(1.1);background:var(--orange);box-shadow:0 0 0 16px rgba(230,126,0,.08),0 0 40px rgba(230,126,0,.2)}
+.play-btn svg{width:28px;height:28px;margin-left:3px}
+.video-meta{padding:18px 22px;display:flex;align-items:center;justify-content:space-between}
+.video-meta-left h4{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--white);margin-bottom:3px}
+.video-meta-left p{font-size:12px;color:var(--gray)}
+.video-badge{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--orange);background:rgba(230,126,0,.1);border:1px solid rgba(230,126,0,.2);padding:4px 10px;border-radius:4px}
+
+/* VIDEO MODAL */
+.video-modal{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.92);align-items:center;justify-content:center;padding:40px}
+.video-modal.active{display:flex}
+.video-modal-inner{position:relative;width:100%;max-width:900px;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden}
+.video-modal-inner iframe{width:100%;height:100%;border:none}
+.video-modal-close{position:absolute;top:-44px;right:0;background:none;border:none;color:var(--white);font-size:28px;cursor:pointer;opacity:.6;transition:opacity .2s}
+.video-modal-close:hover{opacity:1}
+
+/* VALUE PROPS */
+.value-section{padding:80px clamp(20px,4vw,60px);max-width:1200px;margin:0 auto}
+.value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.value-card{padding:32px 0;border-top:2px solid var(--dim);transition:border-color .3s}
+.value-card:hover{border-color:var(--orange)}
+.value-num{font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:700;color:var(--orange);line-height:1;margin-bottom:12px}
+.value-card h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;margin-bottom:8px;letter-spacing:-.3px;line-height:1.3}
+.value-card p{font-size:14px;color:var(--gray);line-height:1.6}
+.dev-badge{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--orange);background:rgba(230,126,0,.1);border:1px solid rgba(230,126,0,.2);padding:3px 8px;border-radius:4px;margin-top:12px}
+
+/* QUOTES */
+.quotes-section{padding:80px clamp(20px,4vw,60px);background:var(--darker);position:relative}
+.quotes-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(230,126,0,.3),transparent)}
+.quotes-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:30px}
+.quote-card{padding:28px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:12px;transition:border-color .3s}
+.quote-card:hover{border-color:rgba(230,126,0,.2)}
+.quote-mark{font-family:'Space Grotesk',sans-serif;font-size:48px;color:var(--orange);opacity:.3;line-height:1;margin-bottom:-10px}
+.quote-card blockquote{font-size:14px;color:var(--light);line-height:1.7;font-style:italic;margin-bottom:16px}
+.quote-attr{display:flex;align-items:center;gap:10px}
+.quote-avatar{width:32px;height:32px;border-radius:50%;background:var(--dim);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--orange)}
+.quote-name{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--white)}
+.quote-role{font-size:11px;color:var(--gray)}
+
+/* CREDIBILITY BAR */
+.cred-bar{padding:24px clamp(20px,4vw,60px);display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04)}
+.cred-item{font-size:13px;color:var(--gray);letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+.cred-item .dot{width:4px;height:4px;background:var(--orange);border-radius:50%}
+.cred-item strong{color:var(--white);font-weight:500}
+
+/* FINAL CTA */
+.final-cta{padding:100px clamp(20px,4vw,60px);text-align:center;position:relative;overflow:hidden}
+.final-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(230,126,0,.06) 0%,transparent 70%);pointer-events:none}
+.final-content{position:relative;z-index:2;max-width:600px;margin:0 auto}
+.final-cta h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,4.5vw,44px);font-weight:700;letter-spacing:-1px;margin-bottom:12px;line-height:1.15}
+.final-cta .sub{font-size:16px;color:var(--gray);margin-bottom:36px;line-height:1.6}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:24px;background:rgba(20,20,20,.95);border:1px solid rgba(230,126,0,.2);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;z-index:200;opacity:0;transform:translateY(20px);transition:all .5s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(10px)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast-dot{width:6px;height:6px;background:#22C55E;border-radius:50%;flex-shrink:0}
+.toast-text{font-size:13px;color:var(--light)}
+.toast-text strong{color:var(--white);font-weight:500}
+
+/* FOOTER */
+footer{padding:40px clamp(20px,4vw,60px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;border-top:1px solid rgba(255,255,255,.04)}
+footer .f-left{display:flex;align-items:center;gap:24px}
+footer .f-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;letter-spacing:2px;color:var(--white)}
+footer a{font-size:12px;color:var(--gray);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--white)}
+.social-icons{display:flex;align-items:center;gap:16px}
+.social-icons a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);transition:all .25s}
+.social-icons a:hover{border-color:rgba(230,126,0,.3);background:rgba(230,126,0,.08)}
+.social-icons a svg{width:16px;height:16px;fill:var(--gray);transition:fill .25s}
+.social-icons a:hover svg{fill:var(--orange)}
+footer .f-right{font-size:12px;color:var(--dim)}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.s1{transition-delay:.1s}.s2{transition-delay:.2s}.s3{transition-delay:.3s}.s4{transition-delay:.4s}
+
+/* RESPONSIVE */
+@media(max-width:960px){.value-grid{grid-template-columns:repeat(2,1fr);gap:24px}}
+@media(max-width:768px){.hero h1{letter-spacing:-1px}.value-grid{grid-template-columns:1fr;gap:0}.quotes-grid{grid-template-columns:1fr}.cred-bar{flex-direction:column;gap:12px}.nav-links a:not(.btn-nav){display:none}.video-card{width:min(440px,88vw)}}
+@media(max-width:480px){.hero{padding:80px 16px 40px}.btn-hero{padding:14px 28px;font-size:15px}.video-card{width:92vw}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 599.57 151.39" style="height:24px;width:auto"><g><rect fill="#fff" y="30.28" width="30.28" height="30.28"/><rect fill="#fff" x="30.28" width="30.28" height="30.28"/><rect fill="#216bb4" width="30.28" height="30.28"/><rect fill="#ff3737" x="60.55" width="30.28" height="30.28"/><rect fill="#ff7237" y="60.55" width="30.28" height="30.28"/><rect fill="#fff" y="90.83" width="30.28" height="30.28"/><rect fill="#24cb71" y="121.11" width="30.28" height="30.28"/><rect fill="#fff" x="30.28" y="60.55" width="30.28" height="30.28"/><rect fill="#00b6ff" x="60.55" y="60.55" width="30.28" height="30.28"/><path fill="#fff" d="M127.02,0h26.94v127.01h64.36v24.38h-91.3V0Z"/><path fill="#fff" d="M237.35,0h26.94v151.39h-26.94V0Z"/><path fill="#fff" d="M297.44,0h35.71l73.34,112.47h.43V0h26.94v151.39h-34.21l-74.84-116.11h-.43v116.11h-26.94V0Z"/><path fill="#fff" d="M467.64,0h26.94v64.15h1.28L558.52,0h36.35l-70.77,69.92,75.48,81.47h-37.85l-65.64-74.41h-1.5v74.41h-26.94V0Z"/></g></svg>
+  </a>
+  <div class="nav-links">
+    <a href="https://demo.flink.movie" target="_blank">Demo</a>
+    <a href="team.html">Team</a>
+    <a href="cta.html" class="btn-nav">Join the Waitlist &rarr;</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="counter-wrap">
+      <div class="counter-dot"></div>
+      <span class="counter-text"><span class="counter-num" id="slotCounter">0</span> of 500 places filled</span>
+    </div>
+    <h1><span class="projector-title" id="projTitle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 599.57 151.39" class="hero-logo" role="img" aria-label="FLINK"><g><rect fill="#fff" y="30.28" width="30.28" height="30.28"/><rect fill="#fff" x="30.28" width="30.28" height="30.28"/><rect fill="#216bb4" width="30.28" height="30.28"/><rect fill="#ff3737" x="60.55" width="30.28" height="30.28"/><rect fill="#ff7237" y="60.55" width="30.28" height="30.28"/><rect fill="#fff" y="90.83" width="30.28" height="30.28"/><rect fill="#24cb71" y="121.11" width="30.28" height="30.28"/><rect fill="#fff" x="30.28" y="60.55" width="30.28" height="30.28"/><rect fill="#00b6ff" x="60.55" y="60.55" width="30.28" height="30.28"/><path fill="#fff" d="M127.02,0h26.94v127.01h64.36v24.38h-91.3V0Z"/><path fill="#fff" d="M237.35,0h26.94v151.39h-26.94V0Z"/><path fill="#fff" d="M297.44,0h35.71l73.34,112.47h.43V0h26.94v151.39h-34.21l-74.84-116.11h-.43v116.11h-26.94V0Z"/><path fill="#fff" d="M467.64,0h26.94v64.15h1.28L558.52,0h36.35l-70.77,69.92,75.48,81.47h-37.85l-65.64-74.41h-1.5v74.41h-26.94V0Z"/></g></svg><span class="proj-grain"></span><span class="proj-bloom"></span></span></h1>
+    <p class="hero-sub proj-reveal" style="opacity:0">The first film platform where audiences buy, sell, and truly own independent cinema. Filmmakers keep up to 90%.</p>
+    <a href="cta.html" class="btn-hero proj-reveal" style="opacity:0">Reserve Your Place <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    <p class="hero-fine proj-reveal" style="opacity:0">60 seconds &middot; Non-binding &middot; Zero cost</p>
+  </div>
+</section>
+
+<!-- VIDEO CAROUSEL -->
+<section class="video-section">
+  <div class="video-label reveal"><span>See FLINK in action</span></div>
+  <div class="video-carousel">
+    <div class="video-card reveal">
+      <div class="video-thumb vt-explainer" id="vidExplainer">
+        <div class="play-btn"><svg viewBox="0 0 24 24" fill="var(--black)" stroke="none"><polygon points="8,5 20,12 8,19"/></svg></div>
+      </div>
+      <div class="video-meta">
+        <div class="video-meta-left"><h4>FLINK Explainer</h4><p>How FLINK is changing film distribution for independent creators</p></div>
+        <div class="video-badge">Watch</div>
+      </div>
+    </div>
+    <div class="video-card reveal s1">
+      <div class="video-thumb vt-demo" id="vidDemo">
+        <div class="play-btn"><svg viewBox="0 0 24 24" fill="var(--black)" stroke="none"><polygon points="8,5 20,12 8,19"/></svg></div>
+      </div>
+      <div class="video-meta">
+        <div class="video-meta-left"><h4>FLINK Platform Demo</h4><p>Walk through the platform &mdash; upload, sell, resell, and earn royalties</p></div>
+        <div class="video-badge">Watch</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO MODAL -->
+<div class="video-modal" id="videoModal">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" id="videoClose">&times;</button>
+    <iframe id="videoFrame" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- VALUE PROPS -->
+<section class="value-section" id="about">
+  <div class="value-grid">
+    <div class="value-card reveal">
+      <div class="value-num">90%</div>
+      <h3>Keep what you earn</h3>
+      <p>You set the price. Blockchain-transparent royalties. No hidden fees, no opaque algorithms.</p>
+    </div>
+    <div class="value-card reveal s1">
+      <div class="value-num">&infin;</div>
+      <h3>Audiences resell, you earn forever</h3>
+      <p>Every resale triggers a royalty back to you. Your film keeps generating revenue indefinitely.</p>
+    </div>
+    <div class="value-card reveal s2">
+      <div class="value-num">190+</div>
+      <h3>Countries, fair pricing</h3>
+      <p>Region-based pricing aligned to the UN HDI. Your film reaches the whole world.</p>
+    </div>
+    <div class="value-card reveal s3">
+      <div class="value-num"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#E67E00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+      <h3>Your IP. Your control. Always.</h3>
+      <p>FLINK never takes ownership of your content. You retain full IP rights. We&rsquo;re a tool to reach your audience &mdash; not a gatekeeper standing in the way.</p>
+    </div>
+    <div class="value-card reveal s4">
+      <div class="value-num"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#E67E00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
+      <h3>Real-time transparent analytics</h3>
+      <p>See exactly how your content performs &mdash; views, sales, resales, and royalties in real time. No black-box reporting. You see what we see.</p>
+    </div>
+    <div class="value-card reveal s4">
+      <div class="value-num"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#E67E00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="7.5 4.21 12 6.81 16.5 4.21"/><polyline points="7.5 19.79 7.5 14.6 3 12"/><polyline points="21 12 16.5 14.6 16.5 19.79"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+      <h3>AI segmentation &mdash; monetise your raw data</h3>
+      <p>Your rushes, VFX assets, and production metadata have untapped value. FLINK&rsquo;s AI pipeline lets you segment and license creative data to third parties &mdash; an additional revenue stream from work you&rsquo;ve already done.</p>
+      <span class="dev-badge">In Development</span>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="quotes-section">
+  <div class="quotes-grid">
+    <div class="quote-card reveal">
+      <div class="quote-mark">&ldquo;</div>
+      <blockquote>The missing piece of the jigsaw in the current landscape of film exhibition.</blockquote>
+      <div class="quote-attr"><div class="quote-avatar">AM</div><div><div class="quote-name">Alan Moloney</div><div class="quote-role">Big Things Films</div></div></div>
+    </div>
+    <div class="quote-card reveal s1">
+      <div class="quote-mark">&ldquo;</div>
+      <blockquote>The most exciting development in the entertainment industry in quite some time.</blockquote>
+      <div class="quote-attr"><div class="quote-avatar">MB</div><div><div class="quote-name">Markus Barmettler</div><div class="quote-role">Facing East</div></div></div>
+    </div>
+    <div class="quote-card reveal s2">
+      <div class="quote-mark">&ldquo;</div>
+      <blockquote>A game-changing solution to an industry problem we&rsquo;ve been dealing with for the last decade.</blockquote>
+      <div class="quote-attr"><div class="quote-avatar">JM</div><div><div class="quote-name">Justin Moore-Lewy</div><div class="quote-role">HELO</div></div></div>
+    </div>
+    <div class="quote-card reveal s3">
+      <div class="quote-mark">&ldquo;</div>
+      <blockquote>Opens up a whole distribution network for struggling independent filmmakers.</blockquote>
+      <div class="quote-attr"><div class="quote-avatar">DR</div><div><div class="quote-name">Dee Ryder</div><div class="quote-role">Misfits Entertainment</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDIBILITY BAR -->
+<div class="cred-bar">
+  <div class="cred-item"><div class="dot"></div> <strong>Award winning</strong>&nbsp;team</div>
+  <div class="cred-item"><div class="dot"></div> Experienced&nbsp;<strong>advisory board</strong></div>
+  <div class="cred-item"><div class="dot"></div> Built by <strong>Creators</strong>&nbsp;for&nbsp;<strong>Creators</strong></div>
+  <div class="cred-item"><div class="dot"></div> Showcased at <strong>&nbsp;Cannes 2025</strong></div>
+</div>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-content">
+    <div class="counter-wrap reveal" style="margin-bottom:28px">
+      <div class="counter-dot"></div>
+      <span class="counter-text"><span class="counter-num" id="slotRemaining">0</span> places remaining</span>
+    </div>
+    <h2 class="reveal s1">500 filmmakers.<br>First come, first featured.</h2>
+    <p class="sub reveal s2">Content uploading starts in ~3 months. Reserve your featured placement and 6-month fee holiday now.</p>
+    <a href="cta.html" class="btn-hero reveal s3">Join the Waitlist <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    <p class="hero-fine reveal s3">Questions? <a href="mailto:hello@flink.movie" style="color:var(--orange);text-decoration:none">hello@flink.movie</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-left">
+    <span class="f-logo">FLINK</span>
+    <a href="team.html">Team</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="https://demo.flink.movie" target="_blank">Demo</a>
+  </div>
+  <div class="social-icons">
+    <a href="https://x.com/faborafilms" target="_blank" rel="noopener" title="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a href="https://www.linkedin.com/company/faborafilms" target="_blank" rel="noopener" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <a href="https://www.reddit.com/r/flink" target="_blank" rel="noopener" title="Reddit"><svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg></a>
+    <a href="https://letterboxd.com/flink" target="_blank" rel="noopener" title="Letterboxd"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+  </div>
+  <div class="f-right">LA &middot; Dublin &nbsp;|&nbsp; &copy; 2026 FLINK Inc.</div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-dot"></div>
+  <div class="toast-text"><strong id="toastName"></strong> just joined from <span id="toastLoc"></span></div>
+</div>
+
+<script>
+// ─── SUPABASE CONFIG ───
+const SUPABASE_URL = 'https://dizcaacmuyferwesnzbh.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpemNhYWNtdXlmZXJ3ZXNuemJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0OTEyMTUsImV4cCI6MjA4ODA2NzIxNX0.oC_S4OHOPocbzn9B8agjTAhMNbCjJVcufEb2JjXB_18';
+
+// ─── VIDEO URLS (replace with your YouTube embed URLs) ───
+const VIDEO_URLS = {
+  explainer: 'https://www.youtube.com/embed/czMwB-HWVj0?autoplay=1',
+  demo: 'https://www.youtube.com/embed/zIF_FNbHE50?autoplay=1'
+};
+
+// ─── LIVE COUNTER FROM SUPABASE ───
+async function loadCounter() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/loi_signups?select=id`, {
+      headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}` }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const count = data.length;
+      animC(document.getElementById('slotCounter'), count);
+      const remEl = document.getElementById('slotRemaining');
+      if (remEl) animC(remEl, Math.max(0, 500 - count));
+    }
+  } catch(e) {
+    // Fallback: show 0
+  }
+}
+
+// ─── PROJECTOR STARTUP EFFECT ───
+(function(){
+  const el=document.getElementById("projTitle");
+  const DURATION=3000;
+  const start=performance.now();
+  let audioStarted=false;
+  let audioCtx,gainNode;
+
+  function startProjectorSound(){
+    try{
+      audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+      gainNode=audioCtx.createGain();
+      gainNode.gain.value=0.08;
+      gainNode.connect(audioCtx.destination);
+      const bufLen=audioCtx.sampleRate*4;
+      const buf=audioCtx.createBuffer(1,bufLen,audioCtx.sampleRate);
+      const data=buf.getChannelData(0);
+      let pos=0;
+      let clickInterval=audioCtx.sampleRate/8;
+      const totalSamples=audioCtx.sampleRate*3;
+      while(pos<totalSamples){
+        const clickLen=Math.floor(audioCtx.sampleRate*0.008);
+        for(let i=0;i<clickLen&&(pos+i)<bufLen;i++){
+          const env=Math.exp(-i/(clickLen*0.15));
+          data[pos+i]=(Math.random()*2-1)*env*0.7;
+        }
+        const progress=pos/totalSamples;
+        clickInterval=audioCtx.sampleRate/(8+progress*17);
+        pos+=Math.floor(clickInterval);
+      }
+      const src=audioCtx.createBufferSource();
+      src.buffer=buf;
+      const filter=audioCtx.createBiquadFilter();
+      filter.type='bandpass';filter.frequency.value=800;filter.Q.value=2;
+      src.connect(filter);filter.connect(gainNode);
+      gainNode.gain.setValueAtTime(0.08,audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(0.08,audioCtx.currentTime+2);
+      gainNode.gain.linearRampToValueAtTime(0.015,audioCtx.currentTime+3.5);
+      const motorOsc=audioCtx.createOscillator();
+      motorOsc.type='sawtooth';
+      motorOsc.frequency.setValueAtTime(30,audioCtx.currentTime);
+      motorOsc.frequency.linearRampToValueAtTime(55,audioCtx.currentTime+3);
+      const motorGain=audioCtx.createGain();
+      motorGain.gain.setValueAtTime(0.012,audioCtx.currentTime);
+      motorGain.gain.linearRampToValueAtTime(0.025,audioCtx.currentTime+1.5);
+      motorGain.gain.linearRampToValueAtTime(0.008,audioCtx.currentTime+3.5);
+      const motorFilter=audioCtx.createBiquadFilter();
+      motorFilter.type='lowpass';motorFilter.frequency.value=120;
+      motorOsc.connect(motorFilter);motorFilter.connect(motorGain);motorGain.connect(audioCtx.destination);
+      motorOsc.start();motorOsc.stop(audioCtx.currentTime+4);
+      src.start();src.stop(audioCtx.currentTime+4);
+    }catch(e){}
+  }
+
+  function projectorFrame(now){
+    const elapsed=now-start;
+    const t=Math.min(elapsed/DURATION,1);
+    if(!audioStarted){audioStarted=true;el.classList.add("running");startProjectorSound();}
+    const currentFPS=8+t*17;
+    const frameDuration=1000/currentFPS;
+    const stabilityBias=t*t*t;
+    const flickerMin=0.05+stabilityBias*0.9;
+    const flickerMax=0.3+stabilityBias*0.7;
+    const brightness=flickerMin+Math.random()*(flickerMax-flickerMin);
+    const darkChance=(1-stabilityBias)*0.25;
+    const isDark=Math.random()<darkChance;
+    const weaveAmount=(1-stabilityBias)*3.5;
+    const weaveX=(Math.random()-0.5)*weaveAmount;
+    const weaveY=(Math.random()-0.5)*weaveAmount*0.6;
+    const scalePulse=1+(Math.random()-0.5)*0.008*(1-stabilityBias);
+    el.style.opacity=isDark?0:brightness;
+    el.style.transform=`translate(${weaveX}px,${weaveY}px) scale(${scalePulse})`;
+    if(t<1){setTimeout(()=>requestAnimationFrame(projectorFrame),frameDuration);}
+    else{
+      el.style.opacity=1;el.style.transform='translate(0,0) scale(1)';
+      el.style.transition='opacity .4s, transform .4s';el.classList.add("stable");
+      document.querySelectorAll(".proj-reveal").forEach((e,i)=>{
+        setTimeout(()=>{e.style.transition='opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1)';e.style.transform='translateY(0)';e.style.opacity='1';},i*120);
+      });
+      const cw=document.querySelector(".counter-wrap");
+      if(cw){cw.style.transition='opacity .6s';cw.style.opacity='1';}
+    }
+  }
+  document.querySelector(".counter-wrap").style.opacity='0';
+  document.querySelectorAll(".proj-reveal").forEach(e=>{e.style.transform='translateY(20px)'});
+  setTimeout(()=>requestAnimationFrame(projectorFrame),400);
+})();
+
+// ─── Scroll reveal ───
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add("visible")})},{threshold:.15});
+document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
+
+// ─── Toast (FOMO notifications with sample data) ───
+const ppl=[{n:"Lena V.",l:"Berlin"},{n:"Marcus T.",l:"Lagos"},{n:"Sarah O.",l:"Dublin"},{n:"Carlos M.",l:"Mexico City"},{n:"Priya S.",l:"Mumbai"},{n:"Jake R.",l:"Austin, TX"},{n:"Anya K.",l:"Warsaw"},{n:"Tom\u00e1s H.",l:"S\u00e3o Paulo"},{n:"Aisha K.",l:"Nairobi"},{n:"Emeka O.",l:"Accra"}];
+let ti=0;
+function showToast(){const p=ppl[ti%ppl.length];document.getElementById("toastName").textContent=p.n;document.getElementById("toastLoc").textContent=p.l;const t=document.getElementById("toast");t.classList.add("show");setTimeout(()=>t.classList.remove("show"),4000);ti++}
+setTimeout(showToast,15000);setInterval(showToast,18000);
+
+// ─── Counter animation ───
+function animC(el,tgt){if(tgt===0){el.textContent='0';return;}let c=0;const s=Math.max(1,Math.ceil(tgt/40));const iv=setInterval(()=>{c+=s;if(c>=tgt){c=tgt;clearInterval(iv)}el.textContent=c},30)}
+
+// Load live counter from Supabase
+loadCounter();
+
+// ─── Video Modal ───
+const modal=document.getElementById('videoModal');
+const frame=document.getElementById('videoFrame');
+const closeBtn=document.getElementById('videoClose');
+
+function openVideo(url){
+  if(!url){alert('Video URL not set yet. Add your YouTube embed URL to the VIDEO_URLS config in index.html.');return;}
+  frame.src=url;modal.classList.add('active');
+}
+function closeVideo(){frame.src='';modal.classList.remove('active');}
+
+document.getElementById('vidExplainer').addEventListener('click',()=>openVideo(VIDEO_URLS.explainer));
+document.getElementById('vidDemo').addEventListener('click',()=>openVideo(VIDEO_URLS.demo));
+closeBtn.addEventListener('click',closeVideo);
+modal.addEventListener('click',e=>{if(e.target===modal)closeVideo();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVideo();});
+</script>
+</body>
+</html>

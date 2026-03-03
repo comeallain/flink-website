@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLINK — Privacy Policy</title>
+<link rel="icon" type="image/svg+xml" href="Brand/Favicon/SVG/Favicon_white.svg">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0D0D0D;--dark:#111;--darker:#0A0A0A;--orange:#E67E00;--orange-glow:#E67E0040;--white:#FFF;--gray:#888;--light:#CCC;--dim:#333}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--black);color:var(--white)}
+body{font-family:'DM Sans',sans-serif;font-weight:300;background:var(--black);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 clamp(20px,4vw,60px);height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,13,13,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--white)}
+.nav-logo svg{height:24px;width:auto}
+.nav-logo span{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;letter-spacing:2px}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{color:var(--gray);text-decoration:none;font-size:13px;letter-spacing:.5px;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.btn-nav{background:var(--orange);color:var(--black)!important;padding:8px 20px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;letter-spacing:.3px;transition:all .25s;border:none;cursor:pointer}
+.btn-nav:hover{background:#F59E0B;box-shadow:0 0 20px var(--orange-glow);transform:translateY(-1px)}
+
+/* PAGE HEADER */
+.page-header{padding:140px clamp(20px,4vw,60px) 60px;max-width:800px;margin:0 auto;position:relative}
+.page-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent)}
+.page-header .label{font-family:'Space Grotesk',sans-serif;font-size:12px;color:var(--orange);text-transform:uppercase;letter-spacing:3px;margin-bottom:16px;font-weight:600}
+.page-header h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(36px,5vw,48px);letter-spacing:-2px;line-height:1.1;margin-bottom:12px}
+.page-header p{font-size:15px;color:var(--gray);line-height:1.7}
+
+/* PRIVACY CONTENT */
+.privacy-content{padding:60px clamp(20px,4vw,60px) 100px;max-width:800px;margin:0 auto}
+.privacy-content h2{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.5px;margin:40px 0 16px;color:var(--white)}
+.privacy-content h2:first-child{margin-top:0}
+.privacy-content h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;margin:28px 0 12px;color:var(--light)}
+.privacy-content p{font-size:15px;color:var(--gray);line-height:1.8;margin-bottom:16px}
+.privacy-content ul{margin:0 0 16px 24px;list-style:none}
+.privacy-content ul li{font-size:15px;color:var(--gray);line-height:1.8;padding:4px 0;position:relative;padding-left:16px}
+.privacy-content ul li::before{content:'';position:absolute;left:0;top:14px;width:5px;height:5px;background:var(--orange);border-radius:50%}
+.privacy-content a{color:var(--orange);text-decoration:none;transition:opacity .2s}
+.privacy-content a:hover{opacity:.8}
+.privacy-content strong{color:var(--light);font-weight:500}
+.privacy-note{background:rgba(230,126,0,.06);border:1px solid rgba(230,126,0,.15);border-radius:12px;padding:20px 24px;margin:32px 0;font-size:14px;color:var(--light);line-height:1.7}
+
+/* FOOTER */
+footer{padding:40px clamp(20px,4vw,60px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;border-top:1px solid rgba(255,255,255,.04)}
+footer .f-left{display:flex;align-items:center;gap:24px}
+footer .f-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;letter-spacing:2px;color:var(--white)}
+footer a{font-size:12px;color:var(--gray);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--white)}
+.social-icons{display:flex;align-items:center;gap:16px}
+.social-icons a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);transition:all .25s}
+.social-icons a:hover{border-color:rgba(230,126,0,.3);background:rgba(230,126,0,.08)}
+.social-icons a svg{width:16px;height:16px;fill:var(--gray);transition:fill .25s}
+.social-icons a:hover svg{fill:var(--orange)}
+footer .f-right{font-size:12px;color:var(--dim)}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.s1{transition-delay:.1s}.s2{transition-delay:.2s}
+
+/* RESPONSIVE */
+@media(max-width:768px){.nav-links a:not(.btn-nav){display:none}}
+@media(max-width:480px){.page-header{padding:120px 16px 40px}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 599.57 151.39" style="height:24px;width:auto"><g><rect fill="#fff" y="30.28" width="30.28" height="30.28"/><rect fill="#fff" x="30.28" width="30.28" height="30.28"/><rect fill="#216bb4" width="30.28" height="30.28"/><rect fill="#ff3737" x="60.55" width="30.28" height="30.28"/><rect fill="#ff7237" y="60.55" width="30.28" height="30.28"/><rect fill="#fff" y="90.83" width="30.28" height="30.28"/><rect fill="#24cb71" y="121.11" width="30.28" height="30.28"/><rect fill="#fff" x="30.28" y="60.55" width="30.28" height="30.28"/><rect fill="#00b6ff" x="60.55" y="60.55" width="30.28" height="30.28"/><path fill="#fff" d="M127.02,0h26.94v127.01h64.36v24.38h-91.3V0Z"/><path fill="#fff" d="M237.35,0h26.94v151.39h-26.94V0Z"/><path fill="#fff" d="M297.44,0h35.71l73.34,112.47h.43V0h26.94v151.39h-34.21l-74.84-116.11h-.43v116.11h-26.94V0Z"/><path fill="#fff" d="M467.64,0h26.94v64.15h1.28L558.52,0h36.35l-70.77,69.92,75.48,81.47h-37.85l-65.64-74.41h-1.5v74.41h-26.94V0Z"/></g></svg>
+  </a>
+  <div class="nav-links">
+    <a href="https://demo.flink.movie" target="_blank">Demo</a>
+    <a href="index.html">Home</a>
+    <a href="team.html">Team</a>
+    <a href="cta.html" class="btn-nav">Join the Waitlist &rarr;</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <div class="label reveal">Legal</div>
+  <h1 class="reveal s1">Privacy Policy</h1>
+  <p class="reveal s2">Effective Date: 01 January 2025</p>
+</header>
+
+<!-- PRIVACY CONTENT -->
+<section class="privacy-content">
+
+  <h2>Introduction</h2>
+  <p>FLINK (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) values your privacy and is committed to protecting the personal information you share with us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit or interact with our website, <a href="https://www.flink.movie">www.flink.movie</a>, and any related platforms or services (collectively referred to as the &ldquo;Platform&rdquo;).</p>
+  <p>By accessing or using our Platform, you agree to the terms of this Privacy Policy. If you do not agree with the practices described here, please do not use the Platform.</p>
+
+  <h2>Information We Collect</h2>
+  <p>When you use our Platform, we may collect two types of information:</p>
+
+  <h3>1. Personal Information</h3>
+  <p>This is information that identifies or can be used to identify you. This includes:</p>
+  <ul>
+    <li>Your name, email address, phone number, and postal address (e.g., when you create an account or contact us).</li>
+    <li>Payment details (payment processor handles this securely; we don&rsquo;t store full credit/debit card information).</li>
+    <li>Any other information you voluntarily provide, such as when filling out forms or communicating with our support team.</li>
+  </ul>
+
+  <h3>2. Non-Personal Information</h3>
+  <p>This is data that does not directly identify you and may include:</p>
+  <ul>
+    <li>Browser type, device type, and operating system.</li>
+    <li>IP address, location data, and browsing behavior.</li>
+    <li>Analytics data such as how you interact with our website (e.g., pages visited, session duration).</li>
+  </ul>
+
+  <h2>How We Collect Your Information</h2>
+  <p>We gather information using the following methods:</p>
+  <ul>
+    <li><strong>Direct Input:</strong> When you create an account, subscribe to a newsletter, engage with customer support, or share your information directly.</li>
+    <li><strong>Automated Technologies:</strong> Cookies, tracking pixels, and similar technologies collect information about your interactions with our Platform. For more details, see our Cookies Policy below.</li>
+    <li><strong>Third-Party Sources:</strong> We may receive information from third-party vendors such as payment processors, analytics providers, or marketing platforms.</li>
+  </ul>
+
+  <h2>How We Use Your Information</h2>
+
+  <h3>1. Provide and Enhance the Service</h3>
+  <ul>
+    <li>Enable account creation, film distribution, and user interactions.</li>
+    <li>Process transactions and ensure secure payment.</li>
+    <li>Offer a more personalized experience (e.g., language preferences).</li>
+  </ul>
+
+  <h3>2. Communication</h3>
+  <ul>
+    <li>Send transactional emails such as payment receipts or account updates.</li>
+    <li>Share company news, updates, or promotional material (with your consent).</li>
+  </ul>
+
+  <h3>3. Validation and Security</h3>
+  <ul>
+    <li>Prevent fraud, unauthorized access, or other malicious behavior.</li>
+    <li>Verify your identity or legal ownership of uploaded content.</li>
+  </ul>
+
+  <h3>4. Compliance and Legal Obligations</h3>
+  <ul>
+    <li>Fulfill regulatory compliance, including copyright laws and KYC (Know Your Customer) processes.</li>
+    <li>Respond to legal requests including subpoenas, legal disputes, or law enforcement inquiries.</li>
+  </ul>
+
+  <h3>5. Analytics and Improvements</h3>
+  <ul>
+    <li>Analyze how users engage with our Platform to optimize functionality.</li>
+    <li>Monitor performance and fix bugs or technical issues.</li>
+  </ul>
+
+  <h2>How We Share Your Information</h2>
+  <p>We do not sell or rent your information to third parties. However, we may share your data in the following scenarios:</p>
+
+  <h3>1. With Service Providers</h3>
+  <p>We work with trusted third parties to:</p>
+  <ul>
+    <li>Process payments.</li>
+    <li>Host our platform and store data securely.</li>
+    <li>Provide analytics or customer service support.</li>
+  </ul>
+
+  <h3>2. Legal and Regulatory</h3>
+  <p>We may share information if required by law or to protect our legal rights, comply with regulations, or prevent fraud or other unlawful activities.</p>
+
+  <h3>3. Business Transactions</h3>
+  <p>In the event of a merger, acquisition, or asset sale, your information may be transferred to the new business entity under the same privacy safeguards outlined here.</p>
+
+  <h2>Your Rights</h2>
+  <p>You have certain rights to control your personal data, including:</p>
+  <ul>
+    <li><strong>Access and Correction:</strong> Request access to the data we collect about you. Ask us to update, correct, or delete your personal information.</li>
+    <li><strong>Data Portability:</strong> Request a copy of your personal data in an accessible format.</li>
+    <li><strong>Data Deletion:</strong> Request to have your account or any data we&rsquo;ve collected about you deleted (subject to legal or compliance exceptions).</li>
+    <li><strong>Marketing Preferences:</strong> Opt-out of receiving marketing emails by unsubscribing.</li>
+  </ul>
+
+  <h2>How We Protect Your Information</h2>
+  <p>We take the security of your data seriously and use the following measures to safeguard it:</p>
+  <ul>
+    <li>Encryption of sensitive data, including payments, using industry-standard protocols (e.g., SSL/TLS).</li>
+    <li>Regular audits of security practices and systems.</li>
+    <li>Secure storage environments with limited access to authorized personnel only.</li>
+  </ul>
+  <p>However, no method of internet transmission or digital storage is 100% secure. While we strive to protect your data, we cannot guarantee absolute security.</p>
+
+  <h2>Cookies Policy</h2>
+  <p>Our Platform uses cookies and similar technologies to enhance your experience and collect information.</p>
+
+  <h3>What Are Cookies?</h3>
+  <p>Cookies are small files stored on your device that help us understand how you interact with our Platform.</p>
+
+  <h3>Types of Cookies We Use</h3>
+  <ul>
+    <li><strong>Essential Cookies:</strong> Required for basic functionality (e.g., account login).</li>
+    <li><strong>Analytics Cookies:</strong> Help us analyze website performance and usage trends.</li>
+    <li><strong>Marketing Cookies:</strong> Allow us to show relevant ads based on user behavior (only applicable if you&rsquo;ve consented).</li>
+  </ul>
+
+  <h3>Your Cookie Preferences</h3>
+  <p>You can manage or disable cookies via your browser settings. Note that disabling cookies may impact the functionality of our Platform.</p>
+
+  <h2>Third-Party Links</h2>
+  <p>Our Platform may contain links to third-party websites. We are not responsible for the privacy practices or content of those websites. We encourage you to read their privacy policies before sharing any personal information.</p>
+
+  <h2>Children&rsquo;s Privacy</h2>
+  <p>Our Platform is not intended for individuals under 18 years old. We do not knowingly collect personal information from children. If we discover that we have collected data from a minor, we will delete it immediately.</p>
+
+  <h2>Updates to This Policy</h2>
+  <p>We may update this Privacy Policy from time to time to reflect changes in technology, legal requirements, or our business practices. The latest version will always be available on this page, and we encourage you to review it periodically.</p>
+
+  <h2>Contact Us</h2>
+  <p>If you have questions or concerns about this Privacy Policy, please contact us at:</p>
+  <p>Email: <a href="mailto:hello@flink.movie">hello@flink.movie</a><br>Address: 30 N Gould St Ste R, Sheridan, WY, 82801, United States.</p>
+  <p>Thank you for trusting FLINK with your creative journey. Your privacy and security remain our top priorities.</p>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-left">
+    <span class="f-logo">FLINK</span>
+    <a href="index.html">Home</a>
+    <a href="team.html">Team</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="https://demo.flink.movie" target="_blank">Demo</a>
+  </div>
+  <div class="social-icons">
+    <a href="https://x.com/faborafilms" target="_blank" rel="noopener" title="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a href="https://www.linkedin.com/company/faborafilms" target="_blank" rel="noopener" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <a href="https://www.reddit.com/r/flink" target="_blank" rel="noopener" title="Reddit"><svg viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg></a>
+    <a href="https://letterboxd.com/flink" target="_blank" rel="noopener" title="Letterboxd"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
+  </div>
+  <div class="f-right">LA &middot; Dublin &nbsp;|&nbsp; &copy; 2026 FLINK Inc.</div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add("visible")})},{threshold:.15});
+document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
