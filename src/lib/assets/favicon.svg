@@ -1,0 +1,19 @@
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	width="128"
+	height="128"
+	viewBox="-10 -10 110 171"
+	aria-label="FLINK favicon"
+>
+	<g>
+		<rect fill="#fff" y="30.28" width="30.28" height="30.28" />
+		<rect fill="#fff" x="30.28" width="30.28" height="30.28" />
+		<rect fill="#216bb4" width="30.28" height="30.28" />
+		<rect fill="#ff3737" x="60.55" width="30.28" height="30.28" />
+		<rect fill="#ff7237" y="60.55" width="30.28" height="30.28" />
+		<rect fill="#fff" y="90.83" width="30.28" height="30.28" />
+		<rect fill="#24cb71" y="121.11" width="30.28" height="30.28" />
+		<rect fill="#fff" x="30.28" y="60.55" width="30.28" height="30.28" />
+		<rect fill="#00b6ff" x="60.55" y="60.55" width="30.28" height="30.28" />
+	</g>
+</svg>
