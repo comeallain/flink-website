@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
+	import { get } from "svelte/store";
 	import { page } from "$app/stores";
 	import favicon from "$lib/assets/favicon.svg";
 	import { Toaster } from "svelte-sonner";
@@ -19,6 +20,13 @@
 		let rafId = 0;
 		const vh = () => window.innerHeight;
 		const updateNavTheme = () => {
+			const pathname = get(page).url.pathname;
+			// Team page: always light nav (white elements on dark background)
+			if (pathname === "/team") {
+				navTheme.set("light");
+				inHeroView.set(false);
+				return;
+			}
 			const scrollY = window.scrollY;
 			const h = vh();
 			inHeroView.set(scrollY < h);
@@ -42,9 +50,11 @@
 			});
 		};
 		updateNavTheme();
+		const unsubscribe = page.subscribe(() => updateNavTheme());
 		window.addEventListener("scroll", onScroll, { passive: true });
 		window.addEventListener("resize", updateNavTheme);
 		return () => {
+			unsubscribe();
 			if (rafId) cancelAnimationFrame(rafId);
 			window.removeEventListener("scroll", onScroll);
 			window.removeEventListener("resize", updateNavTheme);
@@ -61,14 +71,25 @@
 </svelte:head>
 
 {@render children()}
-<!-- Scroll hint: on home, while on slide 3 (progress in [0.6, 0.995]) so it stays visible until value section -->
-{#if $page.url.pathname === "/" && $heroProgress >= 0.6 && $heroProgress < 0.995}
+<!-- Scroll hint: on home, for all hero slides (1–3). Text "How?" only on slide 3; chevrons only on slides 1 and 2. -->
+<!-- Chevrons: white on slide 1 (p < 0.2), black on slide 2 (0.2–0.6), dim on slide 3 (0.6+). 0.2 aligns with slide 2 fade-in. -->
+{#if $page.url.pathname === "/" && $heroProgress < 0.995}
 	<div
 		class="pointer-events-auto fixed inset-x-0 bottom-0 z-[30] flex justify-center"
 		in:fade={{ duration: 280 }}
 		out:fade={{ duration: 350 }}
 	>
-		<ScrollHintLink />
+		<ScrollHintLink
+			showLabel={$heroProgress >= 0.6}
+			chevronVariant={
+				$heroProgress < 0.2
+					? "white"
+					: $heroProgress < 0.6
+						? "black"
+						: "dim"
+			}
+			scrollOneViewport={$heroProgress < 0.6}
+		/>
 	</div>
 {/if}
 <Toaster />

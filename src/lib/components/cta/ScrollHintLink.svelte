@@ -1,17 +1,54 @@
 <script lang="ts">
 	// Renders the "How?" + chevrons scroll-down link. Use in a context where it can sit on top (e.g. HeroScene with z-[30]).
+	// When showLabel is false, only the chevrons are shown (e.g. on hero slides 1 and 2).
+	// chevronVariant: "white" (slide 1), "black" (slide 2), "dim" (slide 3, default).
+	// When scrollOneViewport is true, click scrolls by a fraction of viewport instead of going to #about (use on hero slides 1–2).
+	// Hero uses 160% vh total; one slide ≈ 1/3 of that, so we scroll ~30% vh per click to avoid overshooting.
+	interface Props {
+		showLabel?: boolean;
+		chevronVariant?: "white" | "black" | "dim";
+		scrollOneViewport?: boolean;
+	}
+	let {
+		showLabel = true,
+		chevronVariant = "dim",
+		scrollOneViewport = false,
+	}: Props = $props();
+
+	const chevronClass = $derived(
+		chevronVariant === "white"
+			? "text-white"
+			: chevronVariant === "black"
+				? "text-[var(--black)]"
+				: "text-[var(--dim)]",
+	);
+
+	function handleClick(e: MouseEvent) {
+		if (scrollOneViewport) {
+			e.preventDefault();
+			// ~30% viewport per click so we advance one hero slide without overshooting (hero total = 160% vh)
+			const step = Math.round(window.innerHeight * 0.5);
+			window.scrollBy({ top: step, behavior: "smooth" });
+		}
+	}
 </script>
 
 <a
 	href="#about"
-	class="scroll-hint-link flex flex-col items-center justify-center gap-1.5 pb-8 text-[var(--dim)] no-underline hover:no-underline cursor-pointer"
+	class="scroll-hint-link flex flex-col items-center justify-center gap-1.5 pb-8 {chevronClass} no-underline hover:no-underline cursor-pointer transition-colors duration-300"
 	aria-label="Scroll to How it works"
+	onclick={handleClick}
 >
 	<span class="scroll-hint scroll-bounce flex flex-col items-center gap-1.5">
-		<span class="scroll-hint-label-wrapper relative inline-block">
-			<span class="scroll-hint-label text-sm font-semibold tracking-wide">How?</span>
-			<span class="scroll-hint-underline" aria-hidden="true"></span>
-		</span>
+		{#if showLabel}
+			<span class="scroll-hint-label-wrapper relative inline-block">
+				<span
+					class="scroll-hint-label text-sm font-semibold tracking-wide"
+					>How?</span
+				>
+				<span class="scroll-hint-underline" aria-hidden="true"></span>
+			</span>
+		{/if}
 		<span class="scroll-chevrons inline-flex flex-col items-center">
 			<svg
 				class="h-5 w-5"
