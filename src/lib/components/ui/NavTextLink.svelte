@@ -6,11 +6,6 @@
 	export let className = "";
 </script>
 
-<BaseLink
-	{href}
-	{external}
-	className={`hover:text-slate-100 ${className}`}
->
+<BaseLink {href} {external} className={`underline-offset-4 hover:underline ${className}`}>
 	<slot />
 </BaseLink>
-

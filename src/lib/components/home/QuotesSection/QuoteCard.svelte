@@ -3,27 +3,26 @@
 	export let name: string;
 	export let role: string;
 	export let quote: string;
-	export let delayClass = "";
 </script>
 
-<div
-	class={`quote-card reveal ${delayClass} rounded-xl border border-white/10 bg-white/5 p-6 shadow-sm shadow-black/40 transition hover:border-orange-400/40`}
+<article
+	class="quote-card group relative pl-6 transition-colors duration-200 md:pl-8"
+	style="border-left: 3px solid var(--orange);"
 >
-	<div class="quote-mark mb-2 text-5xl text-orange-400/60">&ldquo;</div>
-	<blockquote class="mb-4 text-sm italic leading-relaxed text-slate-100">
-		{quote}
+	<blockquote class="mb-5 text-base leading-relaxed text-[var(--black)] md:text-lg md:leading-[1.65]">
+		<span class="text-[var(--orange)]/70 text-2xl leading-none md:text-3xl">&ldquo;</span>
+		<span class="align-top">{quote}</span>
 	</blockquote>
-	<div class="quote-attr flex items-center gap-3">
+	<footer class="flex items-center gap-3">
 		<div
-			class="quote-avatar flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-xs font-semibold text-orange-300"
+			class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--orange-10)] text-sm font-semibold text-[var(--orange)]"
+			aria-hidden="true"
 		>
 			{initials}
 		</div>
-		<div>
-			<div class="quote-name text-xs font-semibold text-white">
-				{name}
-			</div>
-			<div class="quote-role text-[11px] text-slate-400">{role}</div>
+		<div class="min-w-0">
+			<p class="text-sm font-semibold text-[var(--black)]">{name}</p>
+			<p class="text-xs text-[var(--gray)]">{role}</p>
 		</div>
-	</div>
-</div>
+	</footer>
+</article>

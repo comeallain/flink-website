@@ -4,13 +4,48 @@
 </script>
 
 <div
-	class="counter-wrap inline-flex items-center gap-2 rounded-full border border-orange-500/40 bg-orange-500/10 px-4 py-2 text-xs font-medium text-orange-400"
+	class="counter-wrap inline-flex items-center gap-[10px] rounded-full border px-6 py-[10px]"
+	style="
+		background: rgba(230,126,0,.08);
+		border-color: rgba(230,126,0,.2);
+		animation: pulse-border 3s ease-in-out infinite;
+	"
 >
-	<div class="counter-dot h-2 w-2 rounded-full bg-orange-500"></div>
-	<span class="counter-text flex items-center gap-1 font-mono tracking-wide">
-		<span class="counter-num text-sm font-semibold">{value}</span>
-		<span class="text-[11px] uppercase tracking-[0.18em] text-slate-300"
-			>{label}</span
-		>
+	<div
+		class="counter-dot rounded-full animate-pulse"
+		style="
+			width: 8px;
+			height: 8px;
+			background: var(--orange);
+		"
+	></div>
+	<span
+		class="counter-text flex items-center gap-[6px]"
+		style="
+			font-family: 'Space Grotesk', sans-serif;
+			font-size: 14px;
+			color: var(--orange);
+			font-weight: 500;
+			letter-spacing: .3px;
+		"
+	>
+		<span class="counter-num" style="font-weight: 700;">
+			{value}
+		</span>
+		<span>{label}</span>
 	</span>
 </div>
+
+<style>
+	@keyframes pulse-border {
+		0%, 100% {
+			border-color: rgba(230,126,0,.2);
+		}
+
+		50% {
+			border-color: rgba(230,126,0,.5);
+		}
+	}
+
+	/* dot uses Tailwind animate-pulse */
+</style>

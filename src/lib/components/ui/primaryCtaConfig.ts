@@ -1,7 +1,7 @@
 export type PrimaryCtaSize = "sm" | "md";
 
 export const primaryCtaBaseClass =
-	"inline-flex items-center gap-2 rounded-lg bg-orange-500 font-semibold text-black shadow-lg shadow-orange-500/30 transition hover:bg-orange-400";
+	"inline-flex items-center gap-2 rounded-lg bg-[var(--orange)] font-semibold text-black shadow-lg shadow-[var(--orange-glow)] transition hover:bg-[var(--orange-hover)]";
 
 export const primaryCtaSizeClassBySize: Record<PrimaryCtaSize, string> = {
 	md: "px-8 py-3 text-base",

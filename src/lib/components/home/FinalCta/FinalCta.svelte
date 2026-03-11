@@ -5,13 +5,23 @@
 		PageSection,
 		SectionTitle,
 	} from "$lib/components/ui";
-	import { ContactLink } from "$lib/constants/links";
 	import { revealOnScrollAction, slotRemaining } from "$lib/home";
 </script>
 
 <PageSection
-	className="final-cta relative overflow-hidden border-t border-white/5 bg-black py-20"
+	navTheme="light"
+	className="final-cta relative overflow-hidden border-t border-white/5 bg-[var(--black)] py-20 min-h-[calc(100vh-var(--footer-height))] flex flex-col justify-center"
 >
+	<!-- Faded background image -->
+	<div
+		class="final-cta-bg absolute inset-0 bg-cover bg-center bg-no-repeat opacity-35 blur-xs"
+		style="background-image: url('/images/seats.jpg');"
+		aria-hidden="true"
+	></div>
+	<div
+		class="final-cta-overlay absolute inset-0 bg-gradient-to-b from-[var(--black)]/50 via-[var(--black)]/75 to-[var(--black)]"
+		aria-hidden="true"
+	></div>
 	<div
 		class="final-content relative z-10 mx-auto max-w-xl px-4 text-center sm:px-0"
 		use:revealOnScrollAction
@@ -27,20 +37,18 @@
 			500 filmmakers.<br />
 			First come, first featured.
 		</SectionTitle>
-		<p class="sub reveal s2 mt-4 text-sm leading-relaxed text-slate-400">
-			Content uploading starts in ~3 months. Reserve your featured
-			placement and 6-month fee holiday now.
-		</p>
-		<div class="reveal s3 mt-8 inline-flex justify-center">
-			<PrimaryCtaLink href="/cta" label="Join the Waitlist" />
-		</div>
-		<p class="hero-fine reveal s3 mt-4 text-xs text-slate-500">
-			Questions?
-			<a
-				href={`mailto:${ContactLink.Email}`}
-				class="font-medium text-orange-400 hover:text-orange-300"
-				>{ContactLink.Email}</a
+		<p
+			class="sub reveal s2 mt-4 text-sm leading-relaxed text-[var(--gray)] flex flex-col items-center"
+		>
+			<span>Content uploading starts in ~3 months.</span><span
+				>Reserve your featured placement and <span
+					class="font-medium text-[var(--orange)]"
+					>6-month fee holiday</span
+				> now.</span
 			>
 		</p>
+		<div class="reveal s3 mt-8 inline-flex justify-center">
+			<PrimaryCtaLink href="#signup" label="Join the Waitlist" />
+		</div>
 	</div>
 </PageSection>

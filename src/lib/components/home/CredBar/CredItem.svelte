@@ -3,6 +3,6 @@
 </script>
 
 <div class={`cred-item flex items-center gap-2 ${className}`}>
-	<div class="dot h-1 w-1 rounded-full bg-orange-400"></div>
+	<div class="dot h-1 w-1 rounded-full bg-[var(--orange)]"></div>
 	<slot />
 </div>

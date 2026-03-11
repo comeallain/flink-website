@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { ExternalLink } from "$lib/constants/links";
+	import FlinkLogo from "$lib/icons/FlinkLogo.svelte";
+	import { ExternalLink, ContactLink } from "$lib/constants/links";
 	import {
 		LinkedinIcon,
 		XIcon,
@@ -11,23 +12,58 @@
 	const currentYear = new Date().getFullYear();
 </script>
 
-<footer class="border-t border-white/10 bg-black/90">
+<footer
+	class="border-t border-white/5 bg-[color-mix(in_srgb,var(--black)_90%,transparent)]"
+>
 	<div
-		class="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-8 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:px-6"
+		class="mx-auto flex max-w-[88rem] flex-col items-center gap-4 px-6 py-8 text-xs text-[var(--gray)] sm:flex-row sm:items-center sm:justify-between"
 	>
-		<div class="f-left flex flex-wrap items-center gap-4">
-			<span
-				class="f-logo text-sm font-semibold tracking-[0.25em] text-white"
-				>FLINK</span
+		<div class="f-left flex w-full max-w-[200px] flex-wrap items-center justify-between gap-4 sm:w-auto sm:max-w-none sm:justify-start">
+			<a
+				href="/"
+				class="f-logo flex items-center gap-1.5 text-[11px] font-bold tracking-[0.35em] text-white no-underline"
+				aria-label="FLINK home"
 			>
-			<NavTextLink href="/team">Team</NavTextLink>
-			<NavTextLink href="/privacy">Privacy</NavTextLink>
-			<NavTextLink href={ExternalLink.Demo} external>Demo</NavTextLink>
+				<FlinkLogo variant="white" className="h-3 w-auto" />
+			</a>
+			<div class="footer-links flex items-center gap-4">
+				<NavTextLink
+					href="/team"
+					className="footer-nav-link team-link-animated relative inline-block no-underline hover:no-underline text-[var(--gray)]"
+				>
+					<span class="team-link-label">Team</span>
+					<span class="team-link-underline" aria-hidden="true"></span>
+				</NavTextLink>
+				<NavTextLink
+					href="/privacy"
+					className="footer-nav-link team-link-animated relative inline-block no-underline hover:no-underline text-[var(--gray)]"
+				>
+					<span class="team-link-label">Privacy</span>
+					<span class="team-link-underline" aria-hidden="true"></span>
+				</NavTextLink>
+			</div>
 		</div>
 		<div
-			class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6"
+			class="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6"
 		>
 			<div class="social-icons flex items-center gap-3">
+				<IconButtonLink
+					href={`mailto:${ContactLink.Email}`}
+					title="Email"
+				>
+					<svg
+						class="h-4 w-4"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.8"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<rect x="3" y="5" width="18" height="14" rx="2" />
+						<polyline points="4 6 12 12 20 6" />
+					</svg>
+				</IconButtonLink>
 				<IconButtonLink href={ExternalLink.X} title="X">
 					<XIcon className="h-4 w-4 fill-current" />
 				</IconButtonLink>
@@ -45,7 +81,7 @@
 				</IconButtonLink>
 			</div>
 		</div>
-		<div class="f-right text-slate-500">
+		<div class="f-right text-center text-[var(--dim)] sm:text-left">
 			LA &middot; Dublin &nbsp;|&nbsp; &copy; {currentYear} FLINK Inc.
 		</div>
 	</div>

@@ -5,7 +5,7 @@
 
 	const VIDEO_URLS: Record<VideoKind, string> = {
 		explainer: "",
-		demo: ""
+		demo: "",
 	};
 
 	let activeVideo: VideoKind | null = null;
@@ -15,7 +15,7 @@
 		if (!url) {
 			// eslint-disable-next-line no-alert
 			alert(
-				"Video coming soon! Upload your video to YouTube (as Unlisted) or Vimeo, then add the embed URL to VIDEO_URLS in VideoCarousel.svelte."
+				"Video coming soon! Upload your video to YouTube (as Unlisted) or Vimeo, then add the embed URL to VIDEO_URLS in VideoCarousel.svelte.",
 			);
 			return;
 		}
@@ -27,14 +27,14 @@
 	}
 
 	function currentVideoUrl() {
-		return activeVideo ? VIDEO_URLS[activeVideo] ?? "" : "";
+		return activeVideo ? (VIDEO_URLS[activeVideo] ?? "") : "";
 	}
 </script>
 
 <PageSection className="video-section relative border-t border-white/5 py-16">
-	<div class="mx-auto max-w-6xl px-4 sm:px-6">
+	<div class="mx-auto max-w-[88rem] px-6">
 		<div
-			class="video-label reveal mb-6 text-left text-xs font-medium uppercase tracking-[0.2em] text-slate-400"
+			class="video-label reveal mb-6 text-left text-xs font-medium uppercase tracking-[0.2em] text-[var(--gray)]"
 		>
 			<span>See FLINK in action</span>
 		</div>
@@ -42,16 +42,16 @@
 			class="video-carousel flex gap-6 overflow-x-auto pb-2 pt-1 [scrollbar-width:none] [-ms-overflow-style:none]"
 		>
 			<div
-				class="video-card reveal min-w-[min(520px,85vw)] scroll-mx-4 rounded-xl border border-white/10 bg-slate-900/60 shadow-sm shadow-black/40 transition hover:-translate-y-1 hover:border-orange-400/40 hover:shadow-lg hover:shadow-orange-500/20"
+				class="video-card reveal min-w-[min(520px,85vw)] scroll-mx-4 rounded-xl border border-white/5 bg-[color-mix(in_srgb,var(--dark)_60%,transparent)] shadow-sm shadow-black/40 transition hover:-translate-y-1 hover:border-[var(--orange-25)] hover:shadow-lg hover:shadow-[var(--orange-20)]"
 			>
 				<button
 					type="button"
-					class="video-thumb vt-explainer relative flex aspect-video w-full cursor-pointer items-center justify-center overflow-hidden bg-linear-to-br from-slate-950 via-amber-950/60 to-slate-950"
+					class="video-thumb vt-explainer relative flex aspect-video w-full cursor-pointer items-center justify-center overflow-hidden bg-linear-to-br from-[var(--black)] via-amber-950/60 to-[var(--black)]"
 					on:click={() => openVideo("explainer")}
 					aria-label="Play FLINK explainer video"
 				>
 					<div
-						class="play-btn relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-orange-500 text-black shadow-lg shadow-orange-500/40 transition hover:scale-105"
+						class="play-btn relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--orange)] text-black shadow-lg shadow-[var(--orange-40)] transition hover:scale-105"
 					>
 						<svg
 							viewBox="0 0 24 24"
@@ -62,7 +62,7 @@
 						</svg>
 					</div>
 					<div
-						class="pointer-events-none absolute inset-0 bg-radial-at-center from-orange-500/10 via-transparent to-transparent"
+						class="pointer-events-none absolute inset-0 bg-radial-at-center from-[var(--orange-10)] via-transparent to-transparent"
 					></div>
 				</button>
 				<div
@@ -72,29 +72,29 @@
 						<p class="text-sm font-semibold text-white">
 							FLINK Explainer
 						</p>
-						<p class="text-xs text-slate-400">
+						<p class="text-xs text-[var(--gray)]">
 							How FLINK is changing film distribution for
 							independent creators
 						</p>
 					</div>
 					<div
-						class="video-badge inline-flex items-center rounded-md border border-orange-400/40 bg-orange-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-orange-300"
+						class="video-badge inline-flex items-center rounded-md border border-[var(--orange-20)] bg-[var(--orange-10)] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--orange)]"
 					>
 						Watch
 					</div>
 				</div>
 			</div>
 			<div
-				class="video-card reveal s1 min-w-[min(520px,85vw)] scroll-mx-4 rounded-xl border border-white/10 bg-slate-900/60 shadow-sm shadow-black/40 transition hover:-translate-y-1 hover:border-orange-400/40 hover:shadow-lg hover:shadow-orange-500/20"
+				class="video-card reveal s1 min-w-[min(520px,85vw)] scroll-mx-4 rounded-xl border border-white/5 bg-[color-mix(in_srgb,var(--dark)_60%,transparent)] shadow-sm shadow-black/40 transition hover:-translate-y-1 hover:border-[var(--orange-25)] hover:shadow-lg hover:shadow-[var(--orange-20)]"
 			>
 				<button
 					type="button"
-					class="video-thumb vt-demo relative flex aspect-video w-full cursor-pointer items-center justify-center overflow-hidden bg-linear-to-br from-slate-950 via-sky-950/60 to-slate-950"
+					class="video-thumb vt-demo relative flex aspect-video w-full cursor-pointer items-center justify-center overflow-hidden bg-linear-to-br from-[var(--black)] via-[var(--darker)] to-[var(--black)]"
 					on:click={() => openVideo("demo")}
 					aria-label="Play FLINK demo video"
 				>
 					<div
-						class="play-btn relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-orange-500 text-black shadow-lg shadow-orange-500/40 transition hover:scale-105"
+						class="play-btn relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--orange)] text-black shadow-lg shadow-[var(--orange-40)] transition hover:scale-105"
 					>
 						<svg
 							viewBox="0 0 24 24"
@@ -105,7 +105,7 @@
 						</svg>
 					</div>
 					<div
-						class="pointer-events-none absolute inset-0 bg-radial-at-center from-sky-500/10 via-transparent to-transparent"
+						class="pointer-events-none absolute inset-0 bg-radial-at-center from-[var(--orange-10)] via-transparent to-transparent"
 					></div>
 				</button>
 				<div
@@ -115,13 +115,13 @@
 						<p class="text-sm font-semibold text-white">
 							FLINK Platform Demo
 						</p>
-						<p class="text-xs text-slate-400">
+						<p class="text-xs text-[var(--gray)]">
 							Walk through the platform &mdash; upload, sell,
 							resell, and earn royalties
 						</p>
 					</div>
 					<div
-						class="video-badge inline-flex items-center rounded-md border border-orange-400/40 bg-orange-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-orange-300"
+						class="video-badge inline-flex items-center rounded-md border border-[var(--orange-20)] bg-[var(--orange-10)] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--orange)]"
 					>
 						Watch
 					</div>
@@ -148,7 +148,7 @@
 			class="video-modal-inner relative aspect-video w-full max-w-4xl overflow-hidden rounded-xl bg-black"
 		>
 			<button
-				class="video-modal-close absolute -top-10 right-0 text-3xl text-slate-200 opacity-70 transition hover:opacity-100"
+				class="video-modal-close absolute -top-10 right-0 text-3xl text-[var(--light)] opacity-70 transition hover:opacity-100"
 				on:click={closeVideo}
 				aria-label="Close video"
 			>

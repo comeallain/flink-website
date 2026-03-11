@@ -4,7 +4,7 @@
 </script>
 
 <div
-	class="cred-bar flex flex-wrap items-center justify-center gap-4 border-y border-white/5 bg-black/80 px-4 py-5 text-xs text-slate-400 sm:gap-8 sm:px-6"
+	class="cred-bar mt-16 grid w-full grid-cols-2 place-items-start gap-x-4 gap-y-3 border-y border-[var(--black)]/10 bg-[color-mix(in_srgb,white_75%,var(--orange))] px-4 py-5 text-xs text-[var(--dim)] [&>*]:w-full sm:flex sm:flex-wrap sm:justify-center sm:gap-8 sm:px-6 sm:[&>*]:w-auto"
 >
 	{#each CRED_ITEMS as item}
 		<CredItem>

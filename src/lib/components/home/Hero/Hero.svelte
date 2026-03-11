@@ -10,8 +10,16 @@
 </script>
 
 <PageSection
-	className="hero relative flex min-h-screen flex-col items-center justify-center bg-black px-4 pb-20 pt-28 text-center"
+	className="hero relative flex min-h-screen flex-col items-center justify-center bg-[var(--black)] px-4 pb-20 pt-28 text-center"
 >
+	<div
+		class="pointer-events-none absolute inset-0"
+		style="background:
+			radial-gradient(ellipse 80% 60% at 50% 40%,rgba(230,126,0,.04) 0%,transparent 70%),
+			radial-gradient(ellipse 50% 40% at 20% 80%,rgba(230,126,0,.02) 0%,transparent 60%);"
+		aria-hidden="true"
+	></div>
+
 	<div
 		class="hero-content relative z-10 mx-auto flex max-w-3xl flex-col items-center"
 	>
@@ -24,17 +32,17 @@
 			/>
 		</SectionTitle>
 		<p
-			class="hero-sub proj-reveal max-w-xl text-balance text-base text-slate-300 opacity-0 sm:text-lg"
+			class="hero-sub proj-reveal max-w-xl text-balance text-base text-[var(--light)] opacity-0 sm:text-lg"
 			use:revealOnScrollAction
 		>
 			The first film platform where audiences buy, sell, and truly own
 			independent cinema. Filmmakers keep up to 90%.
 		</p>
 		<div class="proj-reveal mt-8 opacity-0" use:revealOnScrollAction>
-			<PrimaryCtaLink href="/cta" label="Reserve Your Place" />
+			<PrimaryCtaLink href="#signup" label="Reserve Your Place" />
 		</div>
 		<p
-			class="hero-fine proj-reveal mt-4 text-xs text-slate-500 opacity-0"
+			class="hero-fine proj-reveal mt-4 text-xs text-[var(--gray)] opacity-0"
 			use:revealOnScrollAction
 		>
 			60 seconds &middot; Non-binding &middot; Zero cost

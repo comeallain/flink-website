@@ -46,6 +46,7 @@
 	},
 	"dependencies": {
 		"@tanstack/svelte-query": "^6.1.0",
+		"gsap": "^3.14.2",
 		"lucide-svelte": "^0.577.0",
 		"svelte-sonner": "^1.0.8",
 		"sveltekit-superforms": "^2.30.0",
