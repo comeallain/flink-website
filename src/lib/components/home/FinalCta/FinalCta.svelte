@@ -34,7 +34,7 @@
 			align="center"
 			className="reveal s1 text-balance text-3xl sm:text-4xl text-white"
 		>
-			500 filmmakers.<br />
+		500 filmmakers.<br />
 			First come, first featured.
 		</SectionTitle>
 		<p

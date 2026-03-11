@@ -45,10 +45,11 @@ Then open `http://localhost:5173`.
 ### Env configuration
 
 - Set `PUBLIC_SITE_URL` in `.env` for production; it is validated with `src/lib/schemas/env.ts`.
+- For the waitlist signup form, set `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY` in `.env` (see `.env.example`). Run the SQL in `supabase/migrations/001_waitlist_signups.sql` once in the Supabase SQL Editor to create the table and RLS policies.
 
 ### Notes
 
-- Supabase and any dynamic backend dependencies have been intentionally removed; the marketing site currently uses only static data.
+- **Waitlist signups**: The signup modal writes to a Supabase table `waitlist_signups`. Set `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_ANON_KEY` and run `supabase/migrations/001_waitlist_signups.sql` in the Supabase SQL Editor once.
 - The `legacy/` folder is not served by SvelteKit and is safe to delete once you no longer need the original HTML/CSS/JS for reference.
 
 A single global `<Toaster />` from `svelte-sonner` is mounted in `+layout.svelte`, ready for any page-level toast notifications you choose to add.

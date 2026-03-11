@@ -12,6 +12,7 @@
 		heroProgress,
 		inHeroView,
 	} from "$lib/home/navTheme";
+	import { fetchSignupCount } from "$lib/home";
 	import ScrollHintLink from "$lib/components/cta/ScrollHintLink.svelte";
 	import { Modal } from "$lib/components/ui";
 	import SignupForm from "$lib/components/cta/SignupForm.svelte";
@@ -19,6 +20,7 @@
 	const { children } = $props();
 
 	onMount(() => {
+		fetchSignupCount();
 		let rafId = 0;
 		const vh = () => window.innerHeight;
 		const updateNavTheme = () => {

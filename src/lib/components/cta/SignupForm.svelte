@@ -1,20 +1,40 @@
 <script lang="ts">
+	import { onMount } from "svelte";
 	import { z } from "zod";
 	import { toast } from "svelte-sonner";
 	import { CounterPill, PageSection } from "$lib/components/ui";
 	import { ArrowRightIcon } from "$lib/icons";
 	import { COUNTRIES } from "$lib/constants/countries";
-	import { slotCount } from "$lib/home";
+	import { slotCount, fetchSignupCount } from "$lib/home";
 	import { revealOnScrollAction } from "$lib/home";
 	import { browser } from "$app/environment";
+	import { page } from "$app/stores";
+	import { supabase, isSupabaseConfigured } from "$lib/supabase/client";
+	import type { WaitlistSignupInsert } from "$lib/supabase/client";
 
 	const { embedded = false } = $props();
 
+	onMount(() => {
+		if (embedded) fetchSignupCount();
+	});
+
 	const signupSchema = z.object({
-		email: z.string().min(1, "Email is required").email("Enter a valid email"),
-		full_name: z.string().min(1, "Full name is required").min(2, "Enter your full name"),
+		email: z
+			.string()
+			.min(1, "Email is required")
+			.email("Enter a valid email"),
+		full_name: z
+			.string()
+			.min(1, "Full name is required")
+			.min(2, "Enter your full name"),
 		company: z.string().optional(),
-		country: z.string().min(1, "Please select a country").refine((c) => (COUNTRIES as readonly string[]).includes(c), "Invalid country"),
+		country: z
+			.string()
+			.min(1, "Please select a country")
+			.refine(
+				(c) => (COUNTRIES as readonly string[]).includes(c),
+				"Invalid country",
+			),
 		film_count: z.coerce.number().min(1, "Enter at least 1"),
 		loi_agree: z
 			.union([z.literal("on"), z.boolean()])
@@ -23,7 +43,9 @@
 		investor_ref: z.enum(["named", "anonymous"]),
 	});
 
-	type FieldErrors = Partial<Record<keyof z.infer<typeof signupSchema>, boolean>>;
+	type FieldErrors = Partial<
+		Record<keyof z.infer<typeof signupSchema>, boolean>
+	>;
 
 	let submitted = $state(false);
 	let submitting = $state(false);
@@ -63,7 +85,8 @@
 			const errors: FieldErrors = {};
 			for (const issue of result.error.issues) {
 				const path = issue.path;
-				const key = Array.isArray(path) && path.length > 0 ? path[0] : null;
+				const key =
+					Array.isArray(path) && path.length > 0 ? path[0] : null;
 				if (typeof key === "string" && knownKeys.has(key)) {
 					errors[key as keyof FieldErrors] = true;
 				}
@@ -71,7 +94,9 @@
 			// Fallback: flattenError in case path is nested differently
 			try {
 				const flattened = z.flattenError(result.error);
-				const fe = (flattened as { fieldErrors?: Record<string, string[]> }).fieldErrors;
+				const fe = (
+					flattened as { fieldErrors?: Record<string, string[]> }
+				).fieldErrors;
 				if (fe) {
 					for (const key of Object.keys(fe)) {
 						if (fe[key]?.length && knownKeys.has(key)) {
@@ -99,35 +124,58 @@
 			return;
 		}
 
+		if (!isSupabaseConfigured()) {
+			toast.error(
+				"Signup is temporarily unavailable. Please try again later.",
+			);
+			return;
+		}
+
 		submitting = true;
-		await new Promise((r) => setTimeout(r, 600));
-		submitted = true;
+
+		const source = browser
+			? ($page.url.searchParams.get("utm_source") ?? null)
+			: null;
+		const utm_campaign = browser
+			? ($page.url.searchParams.get("utm_campaign") ?? null)
+			: null;
+
+		const payload: WaitlistSignupInsert = {
+			email: result.data.email,
+			full_name: result.data.full_name,
+			company: result.data.company || null,
+			country: result.data.country,
+			film_count: result.data.film_count,
+			loi_agree: result.data.loi_agree,
+			investor_ref: result.data.investor_ref,
+			source,
+			utm_campaign,
+		};
+		const { error } = await supabase!.from("waitlist_signups").insert(payload as any);
+
 		submitting = false;
-		slotCount.update((n) => Math.min(500, n + 1));
+
+		if (error) {
+			if (error.code === "23505") {
+				toast.error("This email is already on the waitlist.");
+			} else {
+				toast.error("Something went wrong. Please try again.");
+			}
+			return;
+		}
+
+		submitted = true;
+		fetchSignupCount();
 	}
 
 	function hasError(field: keyof FieldErrors): boolean {
 		return !!fieldErrors[field];
 	}
 
-	const errorBorderStyle = "border-color: #ef4444; box-shadow: 0 0 0 2px rgba(239,68,68,0.4);";
+	const errorBorderStyle =
+		"border-color: #ef4444; box-shadow: 0 0 0 2px rgba(239,68,68,0.4);";
 	const inputBaseClass =
 		"rounded-lg border border-white/5 bg-white/5 px-4 py-3.5 text-[15px] text-white outline-none transition placeholder:text-[var(--dim)] focus:border-[var(--orange-20)] focus:ring-2 focus:ring-[var(--orange-20)]";
-
-	const shareUrl = $derived(
-		browser ? encodeURIComponent(`${window.location.origin}/cta`) : "",
-	);
-	const shareText = $derived(
-		encodeURIComponent(
-			"I just reserved my place on FLINK, the first platform where filmmakers keep up to 90% revenue. 500 slots, first come first featured. Join here:",
-		),
-	);
-	const linkedInShare = $derived(
-		shareUrl ? `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}` : "#",
-	);
-	const xShare = $derived(
-		shareUrl ? `https://x.com/intent/tweet?text=${shareText}&url=${shareUrl}` : "#",
-	);
 </script>
 
 {#if embedded}
@@ -244,7 +292,9 @@
 						for="investor_ref"
 						class="text-sm font-medium tracking-wide text-[var(--light)]"
 					>
-						Investor Reference Permission <span class="text-[var(--orange)]">*</span>
+						Investor Reference Permission <span
+							class="text-[var(--orange)]">*</span
+						>
 					</label>
 					<select
 						id="investor_ref"
@@ -254,8 +304,14 @@
 						style={hasError("investor_ref") ? errorBorderStyle : ""}
 					>
 						<option value="" disabled>Select</option>
-						<option value="named" selected>You may reference my name/company to investors as a signed pre-launch LOI</option>
-						<option value="anonymous">You may reference me only in anonymous/aggregated totals (no name/company)</option>
+						<option value="named" selected
+							>You may reference my name/company to investors as a
+							signed pre-launch LOI</option
+						>
+						<option value="anonymous"
+							>You may reference me only in anonymous/aggregated
+							totals (no name/company)</option
+						>
 					</select>
 				</div>
 				<div class="form-group flex flex-col gap-1.5 sm:col-span-1">
@@ -289,7 +345,9 @@
 							class="checkbox-label flex cursor-pointer items-start gap-3 rounded-lg border p-3 transition"
 							class:input-error={hasError("loi_agree")}
 							class:input-error-off={!hasError("loi_agree")}
-							style={hasError("loi_agree") ? "border-color: #ef4444; background: rgba(239,68,68,0.1);" : ""}
+							style={hasError("loi_agree")
+								? "border-color: #ef4444; background: rgba(239,68,68,0.1);"
+								: ""}
 						>
 							<input
 								type="checkbox"
@@ -323,7 +381,9 @@
 						<ArrowRightIcon />
 					{/if}
 				</button>
-				<p class="form-fine mt-2 text-center text-xs text-[var(--dim)] sm:col-span-2">
+				<p
+					class="form-fine mt-2 text-center text-xs text-[var(--dim)] sm:col-span-2"
+				>
 					Non-binding &middot; Zero cost &middot; You can withdraw at
 					any time
 				</p>
@@ -353,50 +413,24 @@
 					Your pilot slot is reserved. We&rsquo;ll be in touch with
 					next steps as we approach launch. Welcome to FLINK.
 				</p>
-				<div class="share-row mt-7 flex flex-wrap justify-center gap-3">
-					<a
-						href={linkedInShare}
-						target="_blank"
-						rel="noopener"
-						class="share-btn inline-flex items-center gap-2 rounded-lg border border-white/5 bg-white/5 px-5 py-2.5 text-sm font-medium text-[var(--light)] transition hover:border-[var(--orange-20)] hover:bg-[var(--orange-10)] hover:text-white"
-					>
-						<svg
-							class="h-4 w-4"
-							viewBox="0 0 24 24"
-							fill="currentColor"
-						>
-							<path
-								d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-							/>
-						</svg>
-						Share on LinkedIn
-					</a>
-					<a
-						href={xShare}
-						target="_blank"
-						rel="noopener"
-						class="share-btn inline-flex items-center gap-2 rounded-lg border border-white/5 bg-white/5 px-5 py-2.5 text-sm font-medium text-[var(--light)] transition hover:border-[var(--orange-20)] hover:bg-[var(--orange-10)] hover:text-white"
-					>
-						<svg
-							class="h-4 w-4"
-							viewBox="0 0 24 24"
-							fill="currentColor"
-						>
-							<path
-								d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-							/>
-						</svg>
-						Share on X
-					</a>
-				</div>
 			</div>
 		{/if}
 	</div>
 {:else}
-	<PageSection id="signup" navTheme="light" className="form-section relative px-4 py-20 sm:px-6">
-		<div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(230,126,0,0.04)_0%,transparent_70%)] pointer-events-none" aria-hidden="true"></div>
+	<PageSection
+		id="signup"
+		navTheme="light"
+		className="form-section relative px-4 py-20 sm:px-6"
+	>
+		<div
+			class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(230,126,0,0.04)_0%,transparent_70%)] pointer-events-none"
+			aria-hidden="true"
+		></div>
 		<div class="form-wrapper relative z-10 mx-auto max-w-[580px]">
-			<p class="text-[var(--gray)]">Ready to join the FLINK pilot? Use the modal or scroll to this section.</p>
+			<p class="text-[var(--gray)]">
+				Ready to join the FLINK pilot? Use the modal or scroll to this
+				section.
+			</p>
 		</div>
 	</PageSection>
 {/if}
