@@ -15,7 +15,7 @@
 	import { fetchSignupCount } from "$lib/home";
 	import ScrollHintLink from "$lib/components/cta/ScrollHintLink.svelte";
 	import { Modal } from "$lib/components/ui";
-	import SignupForm from "$lib/components/cta/SignupForm.svelte";
+	import SignupFormClient from "$lib/components/cta/SignupFormClient.svelte";
 
 	const { children } = $props();
 
@@ -77,7 +77,7 @@
 {@render children()}
 <!-- Scroll hint: on home, for all hero slides (1–3). Text "How?" only on slide 3; chevrons only on slides 1 and 2. -->
 <Modal>
-	<SignupForm embedded={true} />
+	<SignupFormClient />
 </Modal>
 <!-- Chevrons: white on slide 1 (p < 0.2), black on slide 2 (0.2–0.6), dim on slide 3 (0.6+). 0.2 aligns with slide 2 fade-in. -->
 {#if $page.url.pathname === "/" && $heroProgress < 0.995}

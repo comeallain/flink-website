@@ -3,6 +3,7 @@ node_modules
 .vite
 dist
 build
+.vercel
 
 # Logs
 logs

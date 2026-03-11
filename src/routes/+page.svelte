@@ -8,7 +8,6 @@
 	import {
 		HeroScene,
 		FounderStatement,
-		SignupForm,
 	} from "$lib/components/cta";
 </script>
 
