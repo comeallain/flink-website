@@ -1,5 +1,4 @@
 import { dev } from "$app/environment";
-import { env } from "$env/dynamic/private";
 import { getSupabaseAdmin } from "$lib/supabase/server";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
@@ -10,8 +9,6 @@ export const GET: RequestHandler = async () => {
 	const admin = getSupabaseAdmin();
 	const envCheck = dev
 		? {
-				key_in_sveltekit_env: !!(env.SUPABASE_SERVICE_ROLE_KEY ?? "").trim(),
-				url_in_sveltekit_env: !!(env.PUBLIC_SUPABASE_URL ?? "").trim(),
 				key_in_process_env:
 					typeof process !== "undefined" &&
 					!!process.env?.SUPABASE_SERVICE_ROLE_KEY,
