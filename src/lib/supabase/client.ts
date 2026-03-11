@@ -2,8 +2,8 @@ import { dev } from "$app/environment";
 import { env } from "$env/dynamic/public";
 import { createClient } from "@supabase/supabase-js";
 
-const url = (env.PUBLIC_SUPABASE_URL ?? "").trim();
-const key = (env.PUBLIC_SUPABASE_ANON_KEY ?? "").trim();
+const url = (env?.PUBLIC_SUPABASE_URL ?? "").trim();
+const key = (env?.PUBLIC_SUPABASE_ANON_KEY ?? "").trim();
 
 /** Minimal schema for waitlist_signups so insert() is typed without codegen. */
 export interface WaitlistSignupInsert {

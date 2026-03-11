@@ -5,13 +5,13 @@ import { createClient } from "@supabase/supabase-js";
 
 // PUBLIC_ vars are in dynamic/public; private vars in dynamic/private (server may not see PUBLIC_ in private)
 const url = (
-	envPublic.PUBLIC_SUPABASE_URL ??
-	envPrivate.PUBLIC_SUPABASE_URL ??
-	""
+	(envPublic?.PUBLIC_SUPABASE_URL ??
+		envPrivate?.PUBLIC_SUPABASE_URL ??
+		"") as string
 ).trim();
 
 function getServiceRoleKey(): string {
-	const a = (envPrivate.SUPABASE_SERVICE_ROLE_KEY ?? "") as string;
+	const a = (envPrivate?.SUPABASE_SERVICE_ROLE_KEY ?? "") as string;
 	const b =
 		typeof process !== "undefined"
 			? (process.env?.SUPABASE_SERVICE_ROLE_KEY ?? "")
