@@ -5,7 +5,7 @@
 	import { revealOnScrollAction } from "$lib/home";
 </script>
 
-<PageSection className="founder-section mx-auto max-w-[88rem] px-6 py-20">
+<PageSection className="founder-section relative mx-auto max-w-[88rem] border-t border-white/5 px-6 py-20">
 	<div
 		class="founder-card grid gap-12 md:grid-cols-[280px_1fr] md:gap-12"
 		use:revealOnScrollAction

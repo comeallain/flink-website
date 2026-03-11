@@ -68,7 +68,7 @@
 					<span class="team-link-underline" aria-hidden="true"></span>
 				</NavTextLink>
 			{/if}
-			<PrimaryCtaLink href="/cta" label="Be one of the 500" size="sm" />
+			<PrimaryCtaLink href="#signup" label="Be one of the 500" size="sm" />
 		</div>
 	</div>
 </nav>

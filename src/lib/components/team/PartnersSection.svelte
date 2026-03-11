@@ -4,12 +4,8 @@
 </script>
 
 <PageSection
-	className="partners-section relative mx-auto max-w-[88rem] px-6 py-12"
+	className="partners-section relative mx-auto max-w-[88rem] border-t border-white/5 px-6 py-20"
 >
-	<div
-		class="absolute left-4 right-4 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent sm:left-6 sm:right-6"
-		aria-hidden="true"
-	></div>
 	<div
 		class="section-label text-xs font-semibold uppercase tracking-[0.2em] text-[var(--orange)]"
 		use:revealOnScrollAction

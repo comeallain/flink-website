@@ -13,6 +13,8 @@
 		inHeroView,
 	} from "$lib/home/navTheme";
 	import ScrollHintLink from "$lib/components/cta/ScrollHintLink.svelte";
+	import { Modal } from "$lib/components/ui";
+	import SignupForm from "$lib/components/cta/SignupForm.svelte";
 
 	const { children } = $props();
 
@@ -72,6 +74,9 @@
 
 {@render children()}
 <!-- Scroll hint: on home, for all hero slides (1–3). Text "How?" only on slide 3; chevrons only on slides 1 and 2. -->
+<Modal>
+	<SignupForm embedded={true} />
+</Modal>
 <!-- Chevrons: white on slide 1 (p < 0.2), black on slide 2 (0.2–0.6), dim on slide 3 (0.6+). 0.2 aligns with slide 2 fade-in. -->
 {#if $page.url.pathname === "/" && $heroProgress < 0.995}
 	<div
@@ -92,7 +97,7 @@
 		/>
 	</div>
 {/if}
-<Toaster />
+<Toaster richColors theme="dark" />
 
 <style>
 	@import "tailwindcss";
@@ -174,5 +179,15 @@
 	/* Value cards: border turns orange on hover */
 	:global(.value-card:hover) {
 		border-color: var(--orange);
+	}
+
+	/* Sonner: error toasts in red */
+	:global([data-sonner-toast][data-type="error"]) {
+		background: rgb(185 28 28 / 0.95);
+		border-color: rgb(220 38 38);
+		color: white;
+	}
+	:global([data-sonner-toast][data-type="error"] [data-title]) {
+		color: white;
 	}
 </style>

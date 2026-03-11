@@ -7,3 +7,4 @@ export { default as CounterPill } from "./CounterPill.svelte";
 export { default as IconButtonLink } from "./IconButtonLink.svelte";
 export { default as NavTextLink } from "./NavTextLink.svelte";
 export { default as BaseLink } from "./BaseLink.svelte";
+export { default as Modal } from "./Modal.svelte";

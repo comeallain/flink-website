@@ -26,11 +26,7 @@
 	];
 </script>
 
-<PageSection className="advisors-section relative mx-auto max-w-5xl px-4 py-20 sm:px-6">
-	<div
-		class="absolute left-4 right-4 top-0 h-px bg-gradient-to-r from-transparent via-[var(--orange-30)] to-transparent sm:left-6 sm:right-6"
-		aria-hidden="true"
-	></div>
+<PageSection className="advisors-section relative mx-auto max-w-[88rem] border-t border-white/5 px-6 py-20">
 	<div
 		class="section-label text-xs font-semibold uppercase tracking-[0.2em] text-[var(--orange)]"
 		use:revealOnScrollAction
