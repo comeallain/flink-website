@@ -14,7 +14,7 @@
 >
 	<!-- Faded background image -->
 	<div
-		class="final-cta-bg absolute inset-0 bg-cover bg-center bg-no-repeat opacity-35 blur-xs"
+		class="final-cta-bg absolute inset-0 bg-cover bg-center bg-no-repeat opacity-65 blur-xs"
 		style="background-image: url('/images/seats.jpg');"
 		aria-hidden="true"
 	></div>

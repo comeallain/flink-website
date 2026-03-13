@@ -15,12 +15,48 @@
 	import { fetchSignupCount } from "$lib/home";
 	import ScrollHintLink from "$lib/components/cta/ScrollHintLink.svelte";
 	import { Modal } from "$lib/components/ui";
+	import { Analytics } from "$lib/components/layout";
 	import SignupFormClient from "$lib/components/cta/SignupFormClient.svelte";
+	import { ctaModalOpen } from "$lib/stores/modal";
 
 	const { children } = $props();
 
 	onMount(() => {
 		fetchSignupCount();
+
+		// Persist UTM params to sessionStorage so they survive navigation before form submit
+		const utmKeys = [
+			"utm_source",
+			"utm_campaign",
+			"utm_medium",
+			"utm_content",
+			"utm_term",
+		];
+		const url = get(page).url;
+		for (const key of utmKeys) {
+			const val = url.searchParams.get(key);
+			if (val) sessionStorage.setItem(`flink_${key}`, val);
+		}
+
+		// Mirror modal open/close state in the URL bar without a full navigation.
+		// Opening from any non-/join page pushes /join; closing from /join restores prior path.
+		let priorPath = window.location.pathname + window.location.search;
+		const unsubModal = ctaModalOpen.subscribe((open) => {
+			if (open) {
+				priorPath = window.location.pathname + window.location.search;
+				if (window.location.pathname !== "/join") {
+					// Preserve any UTM params already in the URL
+					const qs = window.location.search;
+					history.pushState(null, "", "/join" + qs);
+				}
+			} else {
+				if (window.location.pathname === "/join") {
+					const dest = priorPath === "/join" || !priorPath ? "/" : priorPath;
+					history.replaceState(null, "", dest);
+				}
+			}
+		});
+
 		let rafId = 0;
 		const vh = () => window.innerHeight;
 		const updateNavTheme = () => {
@@ -58,6 +94,7 @@
 		window.addEventListener("scroll", onScroll, { passive: true });
 		window.addEventListener("resize", updateNavTheme);
 		return () => {
+			unsubModal();
 			unsubscribe();
 			if (rafId) cancelAnimationFrame(rafId);
 			window.removeEventListener("scroll", onScroll);
@@ -74,6 +111,7 @@
 	/>
 </svelte:head>
 
+<Analytics />
 {@render children()}
 <!-- Scroll hint: on home, for all hero slides (1–3). Text "How?" only on slide 3; chevrons only on slides 1 and 2. -->
 <Modal>

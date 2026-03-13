@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { Modal } from "$lib/components/ui";
 
 	let SignupForm: import("svelte").Component<{ embedded: boolean }> | null = $state(null);
 
@@ -10,8 +9,6 @@
 	});
 </script>
 
-<Modal>
-	{#if SignupForm}
-		<SignupForm embedded={true} />
-	{/if}
-</Modal>
+{#if SignupForm}
+	<SignupForm embedded={true} />
+{/if}

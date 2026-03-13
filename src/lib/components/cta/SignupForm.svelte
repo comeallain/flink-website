@@ -133,25 +133,37 @@
 
 		submitting = true;
 
-		const source = browser
-			? ($page.url.searchParams.get("utm_source") ?? null)
-			: null;
-		const utm_campaign = browser
-			? ($page.url.searchParams.get("utm_campaign") ?? null)
-			: null;
+	function getUtm(key: string): string | null {
+		if (!browser) return null;
+		return (
+			$page.url.searchParams.get(key) ||
+			sessionStorage.getItem(`flink_${key}`) ||
+			null
+		);
+	}
 
-		const payload: WaitlistSignupInsert = {
-			email: result.data.email,
-			full_name: result.data.full_name,
-			company: result.data.company || null,
-			country: result.data.country,
-			film_count: result.data.film_count,
-			loi_agree: result.data.loi_agree,
-			investor_ref: result.data.investor_ref,
-			source,
-			utm_campaign,
-		};
-		const { error } = await supabase!.from("waitlist_signups").insert(payload as any);
+	const source = getUtm("utm_source");
+	const utm_campaign = getUtm("utm_campaign");
+	// Extended UTMs — add columns utm_medium, utm_content, utm_term to waitlist_signups if needed
+	const utm_medium = getUtm("utm_medium");
+	const utm_content = getUtm("utm_content");
+	const utm_term = getUtm("utm_term");
+
+	const payload: WaitlistSignupInsert = {
+		email: result.data.email,
+		full_name: result.data.full_name,
+		company: result.data.company || null,
+		country: result.data.country,
+		film_count: result.data.film_count,
+		loi_agree: result.data.loi_agree,
+		investor_ref: result.data.investor_ref,
+		source,
+		utm_campaign,
+		...(utm_medium && { utm_medium }),
+		...(utm_content && { utm_content }),
+		...(utm_term && { utm_term }),
+	};
+	const { error } = await supabase!.from("waitlist_signups").insert(payload as any);
 
 		submitting = false;
 
@@ -164,8 +176,15 @@
 			return;
 		}
 
-		submitted = true;
-		fetchSignupCount();
+	submitted = true;
+	fetchSignupCount();
+
+	// Analytics: fire conversion events
+	if (browser) {
+		const win = window as any;
+		if (win.fbq) win.fbq("track", "Lead");
+		if (win.gtag) win.gtag("event", "generate_lead");
+	}
 	}
 
 	function hasError(field: keyof FieldErrors): boolean {

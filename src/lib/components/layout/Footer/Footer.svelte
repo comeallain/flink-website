@@ -35,7 +35,8 @@
 					<span class="team-link-underline" aria-hidden="true"></span>
 				</NavTextLink>
 				<NavTextLink
-					href="/privacy"
+					href="https://docs.google.com/document/d/1FlZ6E3f-iVqR1vIBtJ_GrJDAa7-bA1X5/edit?usp=sharing&ouid=108926816697858975065&rtpof=true&sd=true"
+					external
 					className="footer-nav-link team-link-animated relative inline-block no-underline hover:no-underline text-[var(--gray)]"
 				>
 					<span class="team-link-label">Privacy</span>

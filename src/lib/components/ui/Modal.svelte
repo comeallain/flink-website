@@ -61,12 +61,12 @@
 			<button
 				type="button"
 				aria-label="Close modal"
-				class="absolute right-4 top-4 z-10 cursor-pointer rounded-lg p-1.5 text-[var(--gray)] transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)]"
+				class="absolute right-3 top-3 z-10 cursor-pointer rounded-lg p-1.5 text-[var(--gray)] transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] sm:right-4 sm:top-4"
 				on:click={() => ctaModalOpen.close()}
 			>
 				<X class="h-5 w-5" />
 			</button>
-			<div class="modal-content max-h-[95vh] overflow-y-auto p-6 pt-12">
+			<div class="modal-content max-h-[95vh] overflow-y-auto p-4 pt-10 sm:p-6 sm:pt-12">
 				<slot />
 			</div>
 		</div>
